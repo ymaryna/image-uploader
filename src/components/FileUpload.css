@@ -82,11 +82,16 @@ button {
     margin-top: 30px;
 }
 
+.card-drag .check {
+    margin-bottom: 10px;
+}
+
 .card-drag .image-uploaded {
     border-radius: 12px;
     max-height: 230px;
     object-fit: cover;
     object-position: top;
+    margin-top: 25px;
 }
 
 .card-drag .box p {

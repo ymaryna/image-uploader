@@ -34,8 +34,6 @@ const FileUpload = ({
                 setImageUploaded(true)
             }, 4000)
         }
-        console.log(image)
-        console.log(imageUploaded)
     }, [image]);
 
     return(
@@ -44,7 +42,7 @@ const FileUpload = ({
                 <div className="card-drag">
                     {imageUploaded ?
                         (<>
-                            <img src={check} alt="check" height={35} width={35} className=""/>
+                            <img src={check} alt="check" height={35} width={35} className="check"/>
                             <h3>Uploaded Successfully!</h3>
                             <img className="w-100 image-uploaded" src={URL.createObjectURL(image)} alt=""/>
                             <Box className="box" component="span" sx={{ p: 0.3, border: '1px solid #E0E0E0', borderRadius: '8px', backgroundColor: '#F6F8FB', display: 'flex', alignItems: 'center', marginTop: '25px' }}>
