@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import './FileUpload.css'
 import { Button } from "bootstrap";
 import imagen from "../assets/image.svg"
+import check from "../assets/check.svg"
+import { LinearProgress } from "@mui/material";
 
 const KILO_BYTES_PER_BYTE = 1000;
 const DEFAULT_MAX_FILE_SIZE_IN_BYTES = 500000;
@@ -53,17 +55,22 @@ const FileUpload = ({
     // };
 
     const handleNewFileUpload = (e) => {
-        // debugger
-        // if (e.target.files && e.target.files[0]) {
-        //     let img = e.target.files[0];
-        //     setImage(img)
-        // }
+        
+        if (e.target.files && e.target.files[0]) {
+            let img = e.target.files[0];
+            setImage(img)
+            setIsLoading(true)
+        }
     };
 
     useEffect(() => {
-        debugger
+        if(image) {
+            setTimeout(() => {
+                setIsLoading(false)
+            }, 4000)
+        }
         console.log(image)
-    }, [files]);
+    }, [image]);
 
 
     // const removeFile = (fileName) => {
@@ -76,25 +83,36 @@ const FileUpload = ({
         <>
             <div className="d-flex justify-content-center align-items-center h-100">
                 <div className="card-drag">
-                    <h3>Upload your image</h3>
-                    <p className="specs">File should be Jpeg, Png,...</p>
-                    <div className="drop">
-                        <img src={imagen} alt="imagen de fondo" />
-                        <p>Drag & Drop your image here</p>
-                        <input
-                            type="file"
-                            ref={fileInputField}
-                            onChange={handleNewFileUpload}
-                            title=""
-                            defaultValue=""
-                            {...otherProps}
-                        />
-                    </div>
-                    <p className="or">Or</p>
-                    <button type="button" onClick={handleUploadBtnClick}>Choose a file</button>
+                    {/* {isLoading ? 
+                        (<>
+                        <h4>Uploading...</h4>
+                        <LinearProgress />
+                        </>)
+                    : 
+                        (<>
+                            <h3>Upload your image</h3>
+                            <p className="specs">File should be Jpeg, Png,...</p>
+                            <div className="drop">
+                                <img src={imagen} alt="imagen de fondo" />
+                                <p>Drag & Drop your image here</p>
+                                <input
+                                    type="file"
+                                    ref={fileInputField}
+                                    onChange={handleNewFileUpload}
+                                    title=""
+                                    defaultValue=""
+                                    {...otherProps}
+                                />
+                            </div>
+                            <p className="or">Or</p>
+                            <button type="button" onClick={handleUploadBtnClick}>Choose a file</button>
+                        </>)
+                    } */}
+                    <img src={check} alt="check" height={35} width={35} className=""/>
+                    <h3>Uploaded Successfully!</h3>
+                    <img className="w-100 image-uploaded" src={URL.createObjectURL(image)} alt=""/>
                 </div>
             </div>
-            
             {/* <section>
                 <label>{label}</label>
                 <p>Drag and drop your files anywhere or</p>

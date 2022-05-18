@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import FileUpload from './components/FileUpload';
-import Prueba from './components/Prueba';
 
 function App() {
 
@@ -13,13 +12,12 @@ function App() {
 
   return (
     <div className='App'>
-      {/* <FileUpload
+      <FileUpload
           accept=".jpg,.png,.jpeg"
           label="Profile Image(s)"
           multiple
           // updateFilesCb={updateUploadedFiles}
-        /> */}
-      <Prueba />
+        />
     </div>
   );
 }
