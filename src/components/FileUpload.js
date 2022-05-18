@@ -3,56 +3,20 @@ import './FileUpload.css'
 import { Button } from "bootstrap";
 import imagen from "../assets/image.svg"
 import check from "../assets/check.svg"
-import { LinearProgress } from "@mui/material";
-
-const KILO_BYTES_PER_BYTE = 1000;
-const DEFAULT_MAX_FILE_SIZE_IN_BYTES = 500000;
-
-const convertNestedObjectToArray = (nestedObj) =>
-  Object.keys(nestedObj).map((key) => nestedObj[key]);
-
-const convertBytesToKB = (bytes) => Math.round(bytes / KILO_BYTES_PER_BYTE);
+import { LinearProgress, Box } from "@mui/material";
 
 const FileUpload = ({
   label,
-//   updateFilesCb,
-  maxFileSizeInBytes = DEFAULT_MAX_FILE_SIZE_IN_BYTES,
   ...otherProps
 }) => {
     const fileInputField = useRef(null);
-    const [files, setFiles] = useState({});
     const [image, setImage] = useState(null);
     const [isLoading, setIsLoading] = useState(false)
+    const [imageUploaded, setImageUploaded] = useState(false)
 
     const handleUploadBtnClick = () => {
         fileInputField.current.click();
     };
-
-    // const addNewFiles = (newFiles) => {
-    //     for (let file of newFiles) {
-    //     if (file.size < maxFileSizeInBytes) {
-    //         if (!otherProps.multiple) {
-    //         return { file };
-    //         }
-    //         files[file.name] = file;
-    //     }
-    //     }
-    //     return { ...files };
-    // };
-
-    // const callUpdateFilesCb = (files) => {
-    //     const filesAsArray = convertNestedObjectToArray(files);
-    //     updateFilesCb(filesAsArray);
-    // };
-
-    // const handleNewFileUpload = (e) => {
-    //     const { files: newFiles } = e.target;
-    //     if (newFiles.length) {
-    //     let updatedFiles = addNewFiles(newFiles);
-    //     setFiles(updatedFiles);
-    //     // callUpdateFilesCb(updatedFiles);
-    //     }
-    // };
 
     const handleNewFileUpload = (e) => {
         
@@ -67,98 +31,58 @@ const FileUpload = ({
         if(image) {
             setTimeout(() => {
                 setIsLoading(false)
+                setImageUploaded(true)
             }, 4000)
         }
         console.log(image)
+        console.log(imageUploaded)
     }, [image]);
-
-
-    // const removeFile = (fileName) => {
-    //     delete files[fileName];
-    //     setFiles({ ...files });
-    //     // callUpdateFilesCb({ ...files });
-    // };
 
     return(
         <>
             <div className="d-flex justify-content-center align-items-center h-100">
                 <div className="card-drag">
-                    {/* {isLoading ? 
+                    {imageUploaded ?
                         (<>
-                        <h4>Uploading...</h4>
-                        <LinearProgress />
+                            <img src={check} alt="check" height={35} width={35} className=""/>
+                            <h3>Uploaded Successfully!</h3>
+                            <img className="w-100 image-uploaded" src={URL.createObjectURL(image)} alt=""/>
+                            <Box className="box" component="span" sx={{ p: 0.3, border: '1px solid #E0E0E0', borderRadius: '8px', backgroundColor: '#F6F8FB', display: 'flex', alignItems: 'center', marginTop: '25px' }}>
+                                <p>{URL.createObjectURL(image)}</p>
+                                <button onClick={() => {navigator.clipboard.writeText(URL.createObjectURL(image))}}>Copy Link</button>
+                            </Box>
                         </>)
-                    : 
+                        :                        
                         (<>
-                            <h3>Upload your image</h3>
-                            <p className="specs">File should be Jpeg, Png,...</p>
-                            <div className="drop">
-                                <img src={imagen} alt="imagen de fondo" />
-                                <p>Drag & Drop your image here</p>
-                                <input
-                                    type="file"
-                                    ref={fileInputField}
-                                    onChange={handleNewFileUpload}
-                                    title=""
-                                    defaultValue=""
-                                    {...otherProps}
-                                />
-                            </div>
-                            <p className="or">Or</p>
-                            <button type="button" onClick={handleUploadBtnClick}>Choose a file</button>
+                            {isLoading ? 
+                                (<>
+                                    <h4>Uploading...</h4>
+                                    <LinearProgress />
+                                </>)
+                            : 
+                                (<>
+                                    <h3>Upload your image</h3>
+                                    <p className="specs">File should be Jpeg, Png,...</p>
+                                    <div className="drop">
+                                        <img src={imagen} alt="imagen de fondo" />
+                                        <p>Drag & Drop your image here</p>
+                                        <input
+                                            type="file"
+                                            ref={fileInputField}
+                                            onChange={handleNewFileUpload}
+                                            title=""
+                                            defaultValue=""
+                                            {...otherProps}
+                                        />
+                                    </div>
+                                    <p className="or">Or</p>
+                                    <button type="button" onClick={handleUploadBtnClick}>Choose a file</button>
+                                </>)
+                            }
                         </>)
-                    } */}
-                    <img src={check} alt="check" height={35} width={35} className=""/>
-                    <h3>Uploaded Successfully!</h3>
-                    <img className="w-100 image-uploaded" src={URL.createObjectURL(image)} alt=""/>
+                    }
                 </div>
             </div>
-            {/* <section>
-                <label>{label}</label>
-                <p>Drag and drop your files anywhere or</p>
-                <button type="button" onClick={handleUploadBtnClick}>
-                    <i className="fas fa-file-upload" />
-                    <span> Upload {otherProps.multiple ? "files" : "a file"}</span>
-                </button>
-                <input
-                type="file"
-                ref={fileInputField}
-                onChange={handleNewFileUpload}
-                title=""
-                defaultValue=""
-                {...otherProps}
-                />
-            </section>
-
-            <article>
-                <span>To Upload</span>
-                <section>
-                    {Object.keys(files).map((fileName, index) => {
-                        let file = files[fileName];
-                        
-                        let isImageFile = file.type.split("/")[0] === "image";
-                        return (
-                        <section key={fileName}>
-                        <div>
-                            {isImageFile && (
-                            <img
-                                src={URL.createObjectURL(file)}
-                                alt={`file preview ${index}`}
-                            />
-                            )}
-                            <div isimagefile={isImageFile.toString()}>
-                                <span>{file.name}</span>
-                                <aside>
-                                    <span>{convertBytesToKB(file.size)} kb</span>
-                                    <i className="fas fa-trash-alt" onClick={() => removeFile(fileName)} />
-                                </aside>
-                            </div>
-                        </div>
-                        </section>
-                    );
-                    })}
-                </section>
-            </article> */}
         </>
     )
 }

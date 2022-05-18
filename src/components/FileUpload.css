@@ -20,7 +20,7 @@
     align-items: center;
     padding: 50px 30px;
     min-width: 320px;
-    max-width: 400px;
+    max-width: 401px;
 }
 
 .card-drag span {
@@ -84,6 +84,18 @@ button {
 
 .card-drag .image-uploaded {
     border-radius: 12px;
+    max-height: 230px;
+    object-fit: cover;
+    object-position: top;
+}
+
+.card-drag .box p {
+    font-size: 12px;
+    max-width: 240px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    margin-bottom: 0;
 }
 
 input {
